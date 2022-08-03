@@ -1,0 +1,28 @@
+name: ci88
+
+on: 
+  workflow_dispatch:
+    inputs:
+      id:
+        description: 'Run ID.'
+        required: false
+      
+      payload:
+        description: The JSON-encoded workflow inputs.
+        required: false
+
+jobs:
+  id:
+    name: Workflow ID Provider
+    runs-on: ubuntu-latest
+    steps:
+      - name: ${{ github.event.inputs.id }}
+        run: echo run identifier ${{ github.event.inputs.id }}
+  validation:
+    name: Validation
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Sleep
+        run: |
+          duration=${{fromJson(github.event.inputs.payload).duration}}
+          sleep ${duration}m
